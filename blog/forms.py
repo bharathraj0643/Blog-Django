@@ -89,6 +89,7 @@ class PostForm(forms.ModelForm):
     title = forms.CharField(label="Title", max_length=200, required=True)
     content = forms.CharField(label="Content", required=True)
     category = forms.ModelChoiceField(label="Category",required=True , queryset=Category.objects.all())
+    img_url = forms.ImageField(label="Image", required=False)
     
     class Meta:
         model = Post
