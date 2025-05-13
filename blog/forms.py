@@ -29,7 +29,7 @@ class RegisterForm(forms.ModelForm):
         password_confirm = cleaned_data.get("password_confirm")
 
         email = cleaned_data.get("email")
-        username = cleaned_data.get("username")
+        # username = cleaned_data.get("username")
 
         if password and password_confirm and password != password_confirm:
             raise forms.ValidationError("Passwords do not match.")

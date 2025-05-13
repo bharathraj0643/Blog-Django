@@ -48,13 +48,9 @@ def index(request):
 
 
 def detail(request, slug):
-    if request.user :
-        messages.error(request , "Please Login to see posts")
-        return redirect('blog:index')
-    
-    if not request.user.has_perm('blog.view_post'):
+    if request.user.is_authenticated and not request.user.has_perm('blog.view_post'):
         messages.error(request , "You have no permissions to view any posts")
-        return redirect('blog:index')
+        return redirect('blog:index')      
     
     # post = next((item for item in posts if item['id']==int(post_id)),None)
     post = Post.objects.get(slug=slug)
