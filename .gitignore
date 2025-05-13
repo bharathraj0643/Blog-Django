@@ -4,3 +4,4 @@ __pycache__/
 # Compiled Python files
 *.pyc
 *.pyo
+secrets.env
