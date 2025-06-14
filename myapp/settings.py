@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-^79hnc48h@y_h4u0jlbdz-7#6#t2lo%p#fh7ybi&mcny-71jwv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1']
+ALLOWED_HOSTS = ['localhost','127.0.0.1', '.vercel.app']
 
 
 # Application definition
@@ -46,9 +46,9 @@ INSTALLED_APPS = [
 ]
 
 ### render d
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)  # Adds the Render domain to the list of Django's allowed hosts
+# RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+# if RENDER_EXTERNAL_HOSTNAME:
+#     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)  # Adds the Render domain to the list of Django's allowed hosts
 ### render d
 
 MIDDLEWARE = [
@@ -96,7 +96,7 @@ WSGI_APPLICATION = 'myapp.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.parse(os.environ.get("PRODUCTION_DB_URL"))
+    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
 
 
@@ -140,15 +140,11 @@ if DEBUG :
         "blog/static",
     ]
 
-### render d
-# This production code might break development mode, so we check whether we're in DEBUG mode
-if not DEBUG:
-    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
-    # and renames the files with unique names for each version to support long-term caching
+# vercel
+if os.environ.get("VERCEL"):
+    STATIC_ROOT = os.path.join(BASE_DIR , "staticfiles")
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-### render d
+# vercel
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
