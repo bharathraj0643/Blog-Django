@@ -144,7 +144,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 if DEBUG :
     STATICFILES_DIRS = [
-        "blog/static",
+        os.path.join(BASE_DIR , "blog/static")
     ]
 
 # vercel
