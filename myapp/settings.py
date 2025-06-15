@@ -31,7 +31,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost','127.0.0.1', '.vercel.app' , 'blog-django-production-382a.up.railway.app']
 
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://blog-django-production-382a.up.railway.app",
+]
 # Application definition
 
 INSTALLED_APPS = [
