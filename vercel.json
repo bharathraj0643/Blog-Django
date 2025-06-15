@@ -4,6 +4,5 @@
       "src": "/(.*)",
       "dest": "myapp/wsgi.py"
     }
-  ],
-  "outputDirectory": "staticfiles"
+  ]
 }
