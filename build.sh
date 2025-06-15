@@ -4,10 +4,10 @@ echo "📦 Installing requirements..."
 pip install -r requirements.txt
 
 echo "🧼 Collecting static files..."
-python manage.py collectstatic --noinput --verbosity=2
+python manage.py collectstatic --noinput
 
 echo "🗃️ Applying DB migrations..."
-python manage.py migrate --noinput
+python manage.py migrate
 
 echo "📁 Listing contents of $(pwd):"
 ls -al
