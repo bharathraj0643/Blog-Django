@@ -5,3 +5,6 @@ __pycache__/
 *.pyc
 *.pyo
 secrets.env
+
+credentials.txt
+.env

@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
+import environ #**/ django-environ to manage environment variables
 
 import pymysql
 pymysql.install_as_MySQLdb()
@@ -21,7 +22,10 @@ pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv(BASE_DIR / "secrets.env")
+#**/ Initialize django-environ to read environment variables from .env file
+env = environ.Env(DEBUG=(bool, False))
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -30,12 +34,13 @@ load_dotenv(BASE_DIR / "secrets.env")
 SECRET_KEY = 'django-insecure-^79hnc48h@y_h4u0jlbdz-7#6#t2lo%p#fh7ybi&mcny-71jwv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1', '.vercel.app' , 'blog-django-production-382a.up.railway.app']
+ALLOWED_HOSTS = ['localhost','127.0.0.1', '.vercel.app' , 'blog-django-production-382a.up.railway.app','blog-django.fly.dev']
 
 CSRF_TRUSTED_ORIGINS = [
     "https://blog-django-production-382a.up.railway.app",
+    "https://blog-django.fly.dev",
 ]
 # Application definition
 
@@ -107,10 +112,14 @@ WSGI_APPLICATION = 'myapp.wsgi.application'
 #render
 
 
-DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"), conn_max_age=600)
-}
+# DATABASES = {
+#     'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"), conn_max_age=600)
+# }
 
+#**/ Using django-environ to read database configuration from environment variables
+DATABASES = {
+    "default": env.db()
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
