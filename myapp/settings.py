@@ -34,7 +34,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = 'django-insecure-^79hnc48h@y_h4u0jlbdz-7#6#t2lo%p#fh7ybi&mcny-71jwv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = DEBUG = env("DEBUG")
+DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = ['localhost','127.0.0.1', '.vercel.app' , 'blog-django-production-382a.up.railway.app','blog-django.fly.dev']
 
