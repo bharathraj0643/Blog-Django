@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 
+from cloudinary.models import CloudinaryField
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
@@ -12,7 +14,8 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    img_url = models.ImageField(max_length=255,null=True,upload_to="posts/images")
+    # img_url = models.ImageField(max_length=255,null=True,upload_to="posts/images")
+    image = CloudinaryField("image")
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=255,unique=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -20,8 +23,9 @@ class Post(models.Model):
     is_published = models.BooleanField(default=False)
 
     def formatted_img_url(self):
-        url = self.img_url if self.img_url.__str__().startswith(('http://','https://')) else self.img_url.url
-        return url
+        # url = self.img_url if self.img_url.__str__().startswith(('http://','https://')) else self.img_url.url
+        # return url
+        return self.image
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)

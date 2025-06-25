@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
+from cloudinary.forms import CloudinaryFileField
+
 from blog.models import Category, Post
 
 
@@ -89,11 +91,12 @@ class PostForm(forms.ModelForm):
     title = forms.CharField(label="Title", max_length=200, required=True)
     content = forms.CharField(label="Content", required=True)
     category = forms.ModelChoiceField(label="Category",required=True , queryset=Category.objects.all())
-    img_url = forms.ImageField(label="Image", required=False)
+    # img_url = forms.ImageField(label="Image", required=False)
+    image = CloudinaryFileField()
     
     class Meta:
         model = Post
-        fields = ['title','content','category','img_url']
+        fields = ['title','content','category','image']
         
     def clean(self):
         cleaned_data = super().clean()
@@ -110,11 +113,17 @@ class PostForm(forms.ModelForm):
         post = super().save(commit)
         cleaned_data = super().clean()
         
-        if cleaned_data.get('img_url'):
-            post.img_url = cleaned_data.get('img_url')
+        # if cleaned_data.get('img_url'):
+        #     post.img_url = cleaned_data.get('img_url')
+        # else:
+        #     img_url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'
+        #     post.img_url = img_url
+
+        if cleaned_data.get('image'):
+            post.image = cleaned_data.get('image')
         else:
-            img_url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'
-            post.img_url = img_url
+            image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'
+            post.image = image
             
         if commit:
             post.save()
