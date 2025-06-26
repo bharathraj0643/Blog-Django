@@ -91,8 +91,8 @@ class PostForm(forms.ModelForm):
     title = forms.CharField(label="Title", max_length=200, required=True)
     content = forms.CharField(label="Content", required=True)
     category = forms.ModelChoiceField(label="Category",required=True , queryset=Category.objects.all())
-    # img_url = forms.ImageField(label="Image", required=False)
-    image = CloudinaryFileField()
+    image = forms.ImageField(label="Image", required=False)
+    # image = CloudinaryFileField()
     
     class Meta:
         model = Post
@@ -119,11 +119,11 @@ class PostForm(forms.ModelForm):
         #     img_url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'
         #     post.img_url = img_url
 
-        if cleaned_data.get('image'):
-            post.image = cleaned_data.get('image')
-        else:
-            image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'
-            post.image = image
+        # if cleaned_data.get('image'):
+        #     post.image = cleaned_data.get('image')
+        # else:
+        #     image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'
+        #     post.image = image
             
         if commit:
             post.save()

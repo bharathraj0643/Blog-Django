@@ -1,14 +1,17 @@
 asgiref==3.8.1
 black==25.1.0
 certifi==2025.6.15
+charset-normalizer==3.4.2
 click==8.1.8
 cloudinary==1.44.1
 colorama==0.4.6
 dj-database-url==2.3.0
 Django==5.2
+django-cloudinary-storage==0.3.0
 django-environ==0.12.0
 django-pagination==1.0.7
 gunicorn==23.0.0
+idna==3.10
 mypy_extensions==1.1.0
 packaging==25.0
 pathspec==0.12.1
@@ -17,6 +20,7 @@ platformdirs==4.3.7
 psycopg2-binary==2.9.10
 PyMySQL==1.1.1
 python-dotenv==1.1.0
+requests==2.32.4
 six==1.17.0
 sqlparse==0.5.3
 typing_extensions==4.13.2

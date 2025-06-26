@@ -14,18 +14,23 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    # img_url = models.ImageField(max_length=255,null=True,upload_to="posts/images")
-    image = CloudinaryField("image")
+    image = models.ImageField(max_length=255,null=True,upload_to="posts/images")
+    # image = CloudinaryField("image")
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=255,unique=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     is_published = models.BooleanField(default=False)
 
+    @property
     def formatted_img_url(self):
-        # url = self.img_url if self.img_url.__str__().startswith(('http://','https://')) else self.img_url.url
-        # return url
-        return self.image
+        fallback = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'
+        try:
+            if self.image and hasattr(self.image, 'url') and self.image.url:
+                return self.image.url
+        except Exception:
+            pass
+        return fallback
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
