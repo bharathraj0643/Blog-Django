@@ -6,6 +6,7 @@ from cloudinary.forms import CloudinaryFileField
 
 from blog.models import Category, Post
 
+from django.conf import settings
 
 class ContactForm(forms.Form):
     name = forms.CharField(label="Name", max_length=100, required=True)
@@ -111,30 +112,22 @@ class PostForm(forms.ModelForm):
         
     def save(self,commit = ...):
         post = super().save(commit)
-        #cleaned_data = super().clean()
-        
-        # if cleaned_data.get('img_url'):
-        #     post.img_url = cleaned_data.get('img_url')
-        # else:
-        #     img_url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'
-        #     post.img_url = img_url
-
-        # if cleaned_data.get('image'):
-        #     post.image = cleaned_data.get('image')
-        # else:
-        #     image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'
-        #     post.image = image
             
         image_file = self.cleaned_data.get('image')
-        if image_file:
-            import cloudinary.uploader
-            result = cloudinary.uploader.upload(
-                image_file,
-                folder="blog-cloud-db/posts/images",  # <-- Set your desired folder here
-                use_filename=True,         # Use the original file name
-                unique_filename=True,     # Don't add a random string (set to True if you want to avoid collisions)
-            )
-            post.image = result['secure_url']  # Store the full Cloudinary URL
+
+        if settings.MACHINE_ENV == "local":
+            if image_file:
+                post.image = image_file
+        else:
+            if image_file:
+                import cloudinary.uploader
+                result = cloudinary.uploader.upload(
+                    image_file,
+                    folder="blog-cloud-db/posts/images",  # <-- Set your desired folder here
+                    use_filename=True,         # Use the original file name
+                    unique_filename=True,     # Don't add a random string (set to True if you want to avoid collisions)
+                )
+                post.image = result['secure_url']  # Store the full Cloudinary URL
 
         if commit:
             post.save()

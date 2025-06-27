@@ -11,10 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-import cloudinary
-import cloudinary_storage
 import os
-from dotenv import load_dotenv
 import dj_database_url
 import environ #**/ django-environ to manage environment variables
 
@@ -25,9 +22,11 @@ pymysql.install_as_MySQLdb()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 #**/ Initialize django-environ to read environment variables from .env file
-env = environ.Env(DEBUG=(bool, False))
+env = environ.Env(DEBUG=(bool, False),MACHINE_ENV=(str, 'production'))
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
+MACHINE_ENV = env("MACHINE_ENV")
+print(MACHINE_ENV)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -102,12 +101,6 @@ WSGI_APPLICATION = 'myapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 # render
 # DATABASES = {
@@ -121,9 +114,18 @@ WSGI_APPLICATION = 'myapp.wsgi.application'
 # }
 
 #**/ Using django-environ to read database configuration from environment variables
-DATABASES = {
-    "default": env.db()
-}
+
+if MACHINE_ENV == "local":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
+        "default": env.db()
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -166,6 +168,29 @@ STATICFILES_DIRS = [BASE_DIR , "blog/static"]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+MEDIA_URL = '/media/'
+if MACHINE_ENV == "local":
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+else:
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+# STORAGES = {
+#     "default": {
+#         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+#         },
+#     "staticfiles": {
+#         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+#         },
+# }
+
+
+CLOUDINARY_STORAGE= {
+    'CLOUD_NAME': env("CLOUDINARY_CLOUD_NAME"),
+    'API_KEY': env("CLOUDINARY_API_KEY"),
+    'API_SECRET': env("CLOUDINARY_API_SECRET"),
+}
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -192,37 +217,3 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER="8dd83b4a458dcf"
 EMAIL_HOST_PASSWORD ="91167ca17d47c1"
-
-
-MEDIA_URL = "/media/"
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# STORAGES = {
-#     "default": {
-#         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-#         },
-#     "staticfiles": {
-#         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-#         },
-# }
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-CLOUDINARY_STORAGE= {
-    'CLOUD_NAME': env("CLOUDINARY_CLOUD_NAME"),
-    'API_KEY': env("CLOUDINARY_API_KEY"),
-    'API_SECRET': env("CLOUDINARY_API_SECRET"),
-}
-
-
-
-# cloudinary.config(
-#     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
-#     api_key=os.environ.get("CLOUDINARY_API_KEY"),
-#     api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
-# )
-
-
-# secret = env("CLOUDINARY_API_SECRET")
-# print("Cloudinary secret:", secret)
-# print("Length:", len(secret) if secret else "None")
