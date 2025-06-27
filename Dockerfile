@@ -24,12 +24,9 @@ COPY . /code
 
 ENV DATABASE_URL "sqlite://:memory:"
 ENV SECRET_KEY "G6QvbzgEnw9UfKhSYqXstUhyBI5BxE5kqI9eYe913Z3scbOI5d"
-RUN ls -al /code
-ENV DJANGO_SETTINGS_MODULE=myapp.settings
-RUN python -m django --version
-RUN python -m pip list
-RUN python manage.py help
-RUN python -c "from django.conf import settings; print(settings.INSTALLED_APPS)"
+ENV CLOUDINARY_CLOUD_NAME=fake
+ENV CLOUDINARY_API_KEY=fake
+ENV CLOUDINARY_API_SECRET=fake
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
