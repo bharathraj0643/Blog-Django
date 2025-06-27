@@ -28,6 +28,8 @@ RUN ls -al /code
 ENV DJANGO_SETTINGS_MODULE=myapp.settings
 RUN python -m django --version
 RUN python -m pip list
+RUN python manage.py help
+RUN python -c "from django.conf import settings; print(settings.INSTALLED_APPS)"
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
