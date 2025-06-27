@@ -25,7 +25,7 @@ COPY . /code
 ENV DATABASE_URL "sqlite://:memory:"
 ENV SECRET_KEY "G6QvbzgEnw9UfKhSYqXstUhyBI5BxE5kqI9eYe913Z3scbOI5d"
 RUN ls -al /code
-ENV DJANGO_SETTINGS_MODULE "myapp.settings"
+ENV DJANGO_SETTINGS_MODULE=myapp.settings
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
