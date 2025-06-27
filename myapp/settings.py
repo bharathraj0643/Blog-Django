@@ -197,17 +197,24 @@ EMAIL_HOST_PASSWORD ="91167ca17d47c1"
 MEDIA_URL = "/media/"
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# STORAGES = {
+#     "default": {
+#         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+#         },
+#     "staticfiles": {
+#         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+#         },
+# }
 
-# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-        },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-        },
+CLOUDINARY_STORAGE= {
+    'CLOUD_NAME': env("CLOUDINARY_CLOUD_NAME"),
+    'API_KEY': env("CLOUDINARY_API_KEY"),
+    'API_SECRET': env("CLOUDINARY_API_SECRET"),
 }
+
+
 
 # cloudinary.config(
 #     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
@@ -215,11 +222,7 @@ STORAGES = {
 #     api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
 # )
 
-CLOUDINARY_STORAGE= {
-    'CLOUD_NAME': env("CLOUDINARY_CLOUD_NAME"),
-    'API_KEY': env("CLOUDINARY_API_KEY"),
-    'API_SECRET': env("CLOUDINARY_API_SECRET"),
-}
+
 # secret = env("CLOUDINARY_API_SECRET")
 # print("Cloudinary secret:", secret)
 # print("Length:", len(secret) if secret else "None")

@@ -4,7 +4,7 @@
 #
 
 app = 'blog-django'
-primary_region = 'bom'
+primary_region = 'sin'
 console_command = '/code/manage.py shell'
 
 [build]
