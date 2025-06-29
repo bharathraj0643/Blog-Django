@@ -37,7 +37,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1', '.vercel.app' , 'blog-django-production-382a.up.railway.app','blog-django.fly.dev']
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 CSRF_TRUSTED_ORIGINS = [
     "https://blog-django-production-382a.up.railway.app",
