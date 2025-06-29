@@ -39,10 +39,7 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://blog-django-production-382a.up.railway.app",
-    "https://blog-django.fly.dev",
-]
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 # Application definition
 
 INSTALLED_APPS = [
