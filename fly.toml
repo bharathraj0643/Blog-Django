@@ -1,10 +1,10 @@
-# fly.toml app configuration file generated for blog-django on 2025-06-17T19:34:54+05:30
+# fly.toml app configuration file generated for blog-django on 2025-06-29T10:56:34+05:30
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = 'blog-django'
-primary_region = 'sin'
+primary_region = 'bom'
 console_command = '/code/manage.py shell'
 
 [build]
